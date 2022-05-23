@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'product_loading_item.dart';
 
 class ProductLoading extends StatelessWidget {
@@ -6,19 +7,18 @@ class ProductLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
+    return GridView.builder(
+      itemBuilder: (context, index) {
+        return const ProductLoadingItem();
+      },
+      itemCount: 4,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 2,
-        crossAxisSpacing: 2,
-        childAspectRatio: 0.8,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+        childAspectRatio: 0.68,
       ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return const ProductLoadingItem();
-        },
-        childCount: 4,
-      ),
+      padding: const EdgeInsets.all(16),
     );
   }
 }

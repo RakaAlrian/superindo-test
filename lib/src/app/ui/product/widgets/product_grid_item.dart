@@ -3,28 +3,40 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:superindo/src/app/data/models/product_model.dart';
 import 'package:superindo/src/app/ui/widgets/shimmer_loading.dart';
-import 'package:superindo/src/utilities/app_router.gr.dart';
-import 'package:superindo/src/utilities/constants.dart';
+import 'package:superindo/src/utilities/extensions/int_extension.dart';
+import 'package:superindo/src/utilities/extensions/string_extension.dart';
+
+import '../../../../utilities/router/app_router.gr.dart';
+import '../../palette.dart';
+import '../../widgets/empty_error_image.dart';
 
 class ProductGridItem extends StatelessWidget {
   final ProductModel? product;
+  final double width;
 
   const ProductGridItem({
     Key? key,
     required this.product,
+    this.width = double.maxFinite,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
+      ),
       child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (product?.defaultImageUrl == null)
-                _emptyOrErrorImage()
+                const EmptyErrorImage()
               else
                 CachedNetworkImage(
                   imageBuilder: (context, imageProvider) {
@@ -48,7 +60,7 @@ class ProductGridItem extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) {
-                    return _emptyOrErrorImage();
+                    return const EmptyErrorImage();
                   },
                   width: double.maxFinite,
                   height: 150,
@@ -56,44 +68,59 @@ class ProductGridItem extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(6),
-                  child: Flex(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    direction: Axis.vertical,
                     children: [
-                      Flexible(
-                        fit: FlexFit.tight,
+                      Text(
+                        product?.name ?? "",
+                        style: const TextStyle(fontSize: 12),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Palette.superindoRed,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(3),
                         child: Text(
-                          product?.name ?? "",
-                          style: const TextStyle(fontSize: 14),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
+                          product?.unit ?? "-",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Palette.superindoRed,
+                          ),
                         ),
                       ),
                       const SizedBox(
                         height: 5,
                       ),
-                      Flexible(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             if (product?.price == product?.productDiscountPrice)
                               Text(
-                                product?.productSellingPrice ?? "",
+                                product?.productSellingPrice.toInt.toRupiah ?? "",
                                 style: const TextStyle(
                                   fontSize: 12,
                                   decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey,
                                 ),
                                 maxLines: 1,
                                 softWrap: false,
                               ),
                             Text(
-                              product?.price ?? "",
+                              product?.price.toInt.toRupiah ?? "",
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
                               ),
-                              maxLines: 1,
                             ),
                           ],
                         ),
@@ -108,7 +135,7 @@ class ProductGridItem extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(10),
                 onTap: () {
                   context.router.push(ProductPageRoute(token: product?.token ?? ""));
                 },
@@ -116,25 +143,6 @@ class ProductGridItem extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  Container _emptyOrErrorImage() {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      width: double.infinity,
-      height: 150,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(4),
-        ),
-      ),
-      child: Center(
-        child: Image.asset(
-          "${ConstAsset.images}logo_superindo.png",
-          height: 60,
-        ),
       ),
     );
   }

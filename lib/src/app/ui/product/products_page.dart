@@ -5,10 +5,11 @@ import 'package:superindo/src/app/data/data_state.dart';
 import 'package:superindo/src/app/data/failures/network_failure.dart';
 import 'package:superindo/src/app/data/models/product_model.dart';
 import 'package:superindo/src/app/notifiers/products_notifier.dart';
+import 'package:superindo/src/app/ui/palette.dart';
 import 'package:superindo/src/app/ui/stateful_mixin.dart';
-import 'package:superindo/src/utilities/extensions/string_extension.dart';
-import 'package:superindo/src/utilities/injector.dart';
+import 'package:superindo/src/utilities/extensions/context_extension.dart';
 
+import '../../../utilities/injector/injector.dart';
 import 'widgets/product_grid.dart';
 import 'widgets/product_loading.dart';
 
@@ -53,7 +54,7 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
       if (state.isFail && _productsNotifier.pageKey == 1) {
         _pagingController.error = _failureWidget(state);
       }
-      
+
       if (state.isSuccess) {
         final List<ProductModel> newItems = state.data!;
         final isLastPage = newItems.length < 5;
@@ -77,34 +78,84 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.string.appTitle),
-      ),
       body: RefreshIndicator(
         onRefresh: () async {
           _pagingController.refresh();
         },
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.all(20),
-              sliver: Consumer<ProductsNotifier>(
-                builder: (context, value, child) {
-                  final state = value.productsState;
+        child: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return <Widget>[
+              _searchAppBar(innerBoxIsScrolled),
+            ];
+          },
+          body: Column(
+            children: [
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () async => _pagingController.refresh(),
+                  child: Consumer<ProductsNotifier>(
+                    builder: (context, value, child) {
+                      final state = value.productsState;
 
-                  if (state.isLoading && value.pageKey == 1) {
-                    return const ProductLoading();
-                  } else {
-                    return ProductGrid(
-                      pagingController: _pagingController,
-                    );
-                  }
-                },
+                      if (state.isLoading && value.pageKey == 1) {
+                        return const ProductLoading();
+                      } else {
+                        return ProductGrid(
+                          pagingController: _pagingController,
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _searchAppBar(bool innerBoxIsScrolled) {
+    const backgroundColor = Colors.white;
+    const fieldColor = Palette.superindoRed;
+    return SliverAppBar(
+      backgroundColor: backgroundColor,
+      elevation: 1,
+      forceElevated: innerBoxIsScrolled,
+      automaticallyImplyLeading: false,
+      floating: true,
+      title: TextField(
+        style: const TextStyle(
+          color: fieldColor,
+          height: 1.5,
+        ),
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: context.string.search,
+          hintStyle: const TextStyle(
+            color: fieldColor,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: fieldColor,
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 14),
+          child: InkResponse(
+            onTap: () {},
+            radius: 20,
+            child: const Icon(
+              Icons.shopping_cart_rounded,
+              color: fieldColor,
+            ),
+          ),
+        )
+      ],
     );
   }
 

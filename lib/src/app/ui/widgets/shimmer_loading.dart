@@ -19,19 +19,29 @@ class ShimmerLoading extends StatelessWidget {
 class ShimmerContainer extends StatelessWidget {
   final double? width;
   final double? height;
+  final Alignment alignment;
   final EdgeInsetsGeometry? margin;
 
-  const ShimmerContainer({Key? key, this.width, this.height, this.margin}) : super(key: key);
+  const ShimmerContainer({
+    Key? key,
+    this.width,
+    this.height,
+    this.margin,
+    this.alignment = Alignment.center,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      margin: margin,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: Colors.white,
+    return Align(
+      alignment: alignment,
+      child: Container(
+        width: width,
+        height: height,
+        margin: margin,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          color: Colors.white,
+        ),
       ),
     );
   }

@@ -1,6 +1,17 @@
 {
-  "appTitle": "superindo",
-  "@appTitle": {
+  "app_title": "superindo",
+  "@app_title": {
     "description": "The title of the application"
-  }
+  },
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "search": "Search anything..",
+  "product_variant": "Product Variant",
+  "product_description": "Product Description",
+  "you_might_like": "You Might Like",
+  "you_just_saw": "You Just Saw"
 }
