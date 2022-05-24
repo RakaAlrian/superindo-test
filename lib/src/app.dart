@@ -56,11 +56,12 @@ class _AppState extends State<App> {
               ),
               button: TextStyle(
                 fontSize: 14.sm,
-                color: Colors.grey.shade900,
+                color: Colors.grey.shade800,
               ),
             ),
             iconTheme: IconThemeData(
               size: 24.sm,
+              color: Colors.grey.shade800,
             ),
             textSelectionTheme: TextSelectionThemeData(
               cursorColor: Colors.grey.shade400,
@@ -118,7 +119,7 @@ class _AppState extends State<App> {
                 fontSize: 14.sm,
               ),
               selectedItemColor: Palette.superindoRed,
-              unselectedItemColor: Colors.grey.shade400,
+              unselectedItemColor: Colors.grey,
             ),
           ),
           builder: (context, child) => child!,

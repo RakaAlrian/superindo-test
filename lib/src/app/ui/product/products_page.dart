@@ -191,6 +191,9 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
               ],
             ),
           ),
+          SizedBox(
+            height: 6.sm,
+          ),
           SmoothPageIndicator(
             controller: _bannerController,
             count: 3,

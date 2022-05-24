@@ -176,14 +176,9 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
             children: [
               Icon(
                 icon,
-                color: Colors.grey.shade600,
               ),
               Text(
                 label,
-                style: TextStyle(
-                  fontSize: 12.sm,
-                  color: Colors.grey.shade600,
-                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
