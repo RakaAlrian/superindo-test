@@ -126,7 +126,7 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
       alignment: Alignment.bottomCenter,
       child: Container(
         width: double.maxFinite,
-        height: 60.sm,
+        height: kBottomNavigationBarHeight.sm,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -166,8 +166,8 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
       child: InkResponse(
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.only(
-            top: 8.sm,
+          padding: EdgeInsets.symmetric(
+            vertical: 4.sm,
           ),
           height: 50.sm,
           child: Column(

@@ -45,7 +45,6 @@ class _AppState extends State<App> {
               primary: Palette.superindoRed,
               secondary: Palette.superindoBlue,
             ),
-            toggleableActiveColor: Palette.superindoRed,
             scaffoldBackgroundColor: Colors.white,
             canvasColor: Colors.white,
             visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -137,35 +137,38 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        showUnselectedLabels: true,
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.store_rounded,
+      bottomNavigationBar: SizedBox(
+        height: kBottomNavigationBarHeight.sm,
+        child: BottomNavigationBar(
+          currentIndex: 0,
+          showUnselectedLabels: true,
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.store_rounded,
+              ),
+              label: context.string.nav_shopping,
             ),
-            label: context.string.nav_shopping,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.receipt_long_rounded,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.receipt_long_rounded,
+              ),
+              label: context.string.nav_transaction,
             ),
-            label: context.string.nav_transaction,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.confirmation_num_rounded,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.confirmation_num_rounded,
+              ),
+              label: context.string.nav_voucher,
             ),
-            label: context.string.nav_voucher,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(
-              Icons.account_circle_rounded,
+            BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.account_circle_rounded,
+              ),
+              label: context.string.nav_profile,
             ),
-            label: context.string.nav_profile,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
