@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'product_loading_item.dart';
 
@@ -12,13 +13,13 @@ class ProductLoading extends StatelessWidget {
         return const ProductLoadingItem();
       },
       itemCount: 4,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 0.68,
+        mainAxisSpacing: 10.w,
+        crossAxisSpacing: 10.w,
+        mainAxisExtent: 260.sm,
       ),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.sm),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:superindo/src/app/data/models/product_model.dart';
 
@@ -19,16 +20,16 @@ class ProductGrid extends StatelessWidget {
       pagingController: pagingController!,
       builderDelegate: _getPagedChildBuilderDelegate(),
       gridDelegate: _getSliverGridDelegateWithFixedCrossAxisCount(),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.sm),
     );
   }
 
   _getSliverGridDelegateWithFixedCrossAxisCount() {
-    return const SliverGridDelegateWithFixedCrossAxisCount(
+    return SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
-      childAspectRatio: 0.68,
+      mainAxisSpacing: 10.sm,
+      crossAxisSpacing: 10.sm,
+      mainAxisExtent: 260.sm,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utilities/constants.dart';
 
@@ -10,9 +11,9 @@ class EmptyErrorImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(8.sm),
       width: double.infinity,
-      height: 150,
+      height: 150.sm,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(4),
@@ -21,7 +22,7 @@ class EmptyErrorImage extends StatelessWidget {
       child: Center(
         child: Image.asset(
           "${ConstAsset.images}logo_superindo.png",
-          height: 60,
+          height: 60.sm,
         ),
       ),
     );

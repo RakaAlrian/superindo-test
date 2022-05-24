@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:superindo/src/app/data/models/product_model.dart';
 import 'package:superindo/src/app/ui/widgets/shimmer_loading.dart';
 import 'package:superindo/src/utilities/extensions/int_extension.dart';
@@ -27,6 +28,7 @@ class ProductGridItem extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
+          width: 1.sm,
           color: Colors.grey.shade200,
         ),
       ),
@@ -43,7 +45,7 @@ class ProductGridItem extends StatelessWidget {
                     return Container(
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(4),
+                          top: Radius.circular(10),
                         ),
                         image: DecorationImage(
                           image: imageProvider,
@@ -53,52 +55,53 @@ class ProductGridItem extends StatelessWidget {
                     );
                   },
                   imageUrl: product?.defaultImageUrl ?? "",
-                  placeholder: (context, url) => const ShimmerLoading(
+                  placeholder: (context, url) => ShimmerLoading(
                     child: ShimmerContainer(
                       width: double.maxFinite,
-                      height: 150,
+                      height: 150.sm,
                     ),
                   ),
                   errorWidget: (context, url, error) {
                     return const EmptyErrorImage();
                   },
                   width: double.maxFinite,
-                  height: 150,
+                  height: 150.sm,
                 ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(6),
+                  padding: EdgeInsets.all(6.sm),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         product?.name ?? "",
-                        style: const TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 12.sm),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                       ),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: 5.sm,
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(6),
                           border: Border.all(
+                            width: 1.sm,
                             color: Palette.superindoRed,
                           ),
                         ),
-                        padding: const EdgeInsets.all(3),
+                        padding: EdgeInsets.all(3.sm),
                         child: Text(
                           product?.unit ?? "-",
-                          style: const TextStyle(
-                            fontSize: 12,
+                          style: TextStyle(
+                            fontSize: 10.sm,
                             color: Palette.superindoRed,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: 5.sm,
                       ),
                       Expanded(
                         child: Column(
@@ -108,8 +111,8 @@ class ProductGridItem extends StatelessWidget {
                             if (product?.price == product?.productDiscountPrice)
                               Text(
                                 product?.productSellingPrice.toInt.toRupiah ?? "",
-                                style: const TextStyle(
-                                  fontSize: 12,
+                                style: TextStyle(
+                                  fontSize: 12.sm,
                                   decoration: TextDecoration.lineThrough,
                                   color: Colors.grey,
                                 ),
@@ -118,7 +121,8 @@ class ProductGridItem extends StatelessWidget {
                               ),
                             Text(
                               product?.price.toInt.toRupiah ?? "",
-                              style: const TextStyle(
+                              style: TextStyle(
+                                fontSize: 16.sm,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),

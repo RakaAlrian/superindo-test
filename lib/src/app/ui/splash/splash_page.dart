@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:superindo/src/utilities/constants.dart';
 import 'package:superindo/src/utilities/extensions/context_extension.dart';
 
@@ -48,12 +49,12 @@ class _SplashPageState extends State<SplashPage> {
             child: Center(
               child: Image.asset(
                 ConstAsset.images + "logo_superindo.png",
-                width: 150,
+                width: 150.sm,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10.sm),
             child: Text(
               context.string.version("1"),
             ),

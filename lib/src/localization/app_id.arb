@@ -1,6 +1,6 @@
 {
   "app_title": "superindo",
-  "version": "Versi : {version}",
+  "version": "Versi: {version}",
   "@version": {
     "placeholders": {
       "version": {}
@@ -9,6 +9,6 @@
   "search": "Cari apapun..",
   "product_variant": "Varian Produk",
   "product_description": "Deskripsi Produk",
-  "you_might_like": "Kamu Mungkin Suka",
-  "you_just_saw": "Baru Kamu Lihat"
+  "similar_products": "Produk Serupa",
+  "recommendation_for_you": "Rekomendasi Untukmu"
 }

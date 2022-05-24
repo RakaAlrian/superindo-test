@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'package:superindo/src/app/data/data_state.dart';
@@ -120,35 +121,41 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
     const backgroundColor = Colors.white;
     const fieldColor = Palette.superindoRed;
     return SliverAppBar(
+      toolbarHeight: kToolbarHeight.sm,
       backgroundColor: backgroundColor,
       elevation: 1,
       forceElevated: innerBoxIsScrolled,
       automaticallyImplyLeading: false,
       floating: true,
-      title: TextField(
-        style: const TextStyle(
-          color: fieldColor,
-          height: 1.5,
-        ),
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          hintText: context.string.search,
-          hintStyle: const TextStyle(
+      titleSpacing: 0,
+      title: Padding(
+        padding: EdgeInsets.only(left: 16.sm),
+        child: TextField(
+          style: TextStyle(
             color: fieldColor,
+            height: 1.5.sm,
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
+          textInputAction: TextInputAction.search,
+          decoration: InputDecoration(
+            hintText: context.string.search,
+            hintStyle: const TextStyle(
               color: fieldColor,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1.sm,
+                color: fieldColor,
+              ),
             ),
           ),
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 14),
+        SizedBox(
+          width: kToolbarHeight.sm,
           child: InkResponse(
             onTap: () {},
-            radius: 20,
+            radius: 20.sm,
             child: const Icon(
               Icons.shopping_cart_rounded,
               color: fieldColor,

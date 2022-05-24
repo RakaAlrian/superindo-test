@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:superindo/src/app/data/data_state.dart';
 import 'package:superindo/src/app/data/failures/network_failure.dart';
@@ -66,13 +67,6 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _productNotifier.dispose();
-    _productsNotifier.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
@@ -132,15 +126,15 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
       alignment: Alignment.bottomCenter,
       child: Container(
         width: double.maxFinite,
-        height: 60,
+        height: 60.sm,
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey.shade600,
-              width: .5,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade400,
+              blurRadius: .5.sm,
             ),
-          ),
+          ],
         ),
         child: Material(
           child: Row(
@@ -172,10 +166,10 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
       child: InkResponse(
         onTap: () {},
         child: Container(
-          padding: const EdgeInsets.only(
-            top: 8,
+          padding: EdgeInsets.only(
+            top: 8.sm,
           ),
-          height: 50,
+          height: 50.sm,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
@@ -187,7 +181,7 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 12.sm,
                   color: Colors.grey.shade600,
                 ),
                 maxLines: 1,
@@ -206,35 +200,35 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         children: [
-          const ShimmerContainer(
+          ShimmerContainer(
             width: double.maxFinite,
-            height: 200,
+            height: 200.sm,
           ),
           ListView(
             shrinkWrap: true,
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.sm),
             physics: const NeverScrollableScrollPhysics(),
-            children: const [
+            children: [
               ShimmerContainer(
                 width: double.maxFinite,
-                height: 26,
+                height: 26.sm,
               ),
               ShimmerContainer(
-                margin: EdgeInsets.symmetric(vertical: 14),
+                margin: EdgeInsets.symmetric(vertical: 14.sm),
                 width: double.maxFinite,
-                height: 26,
+                height: 26.sm,
               ),
               ShimmerContainer(
-                width: 70,
-                height: 22,
+                width: 70.sm,
+                height: 22.sm,
                 alignment: Alignment.centerLeft,
               ),
               SizedBox(
-                height: 10,
+                height: 10.sm,
               ),
               ShimmerContainer(
                 width: double.maxFinite,
-                height: 150,
+                height: 150.sm,
               ),
             ],
           )
@@ -255,9 +249,6 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
               imageBuilder: (context, imageProvider) {
                 return Container(
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(4),
-                    ),
                     image: DecorationImage(
                       image: imageProvider,
                       fit: BoxFit.contain,
@@ -266,66 +257,66 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
                 );
               },
               imageUrl: product?.defaultImageUrl ?? "",
-              placeholder: (context, url) => const ShimmerLoading(
+              placeholder: (context, url) => ShimmerLoading(
                 child: ShimmerContainer(
                   width: double.maxFinite,
-                  height: 200,
+                  height: 200.sm,
                 ),
               ),
               errorWidget: (context, url, error) {
                 return const EmptyErrorImage();
               },
               width: double.maxFinite,
-              height: 200,
+              height: 200.sm,
             ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.sm),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product?.name ?? "",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey.shade900,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 if (product?.price == product?.productDiscountPrice)
                   Text(
                     product?.productSellingPrice.toInt.toRupiah ?? "",
                     style: const TextStyle(
                       decoration: TextDecoration.lineThrough,
-                      color: Colors.red,
+                      color: Colors.grey,
                     ),
                     maxLines: 1,
                     softWrap: false,
                   ),
                 Text(
                   product?.price.toInt.toRupiah ?? "",
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 18.sm,
                     fontWeight: FontWeight.w600,
                     color: Palette.superindoBlue,
                   ),
                 ),
-                const SizedBox(
-                  height: 14,
+                SizedBox(
+                  height: 10.sm,
                 ),
                 Text(
-                  context.string.product_variant + " :",
+                  product?.name ?? "",
+                  style: TextStyle(
+                    fontSize: 16.sm,
+                    color: Colors.grey.shade900,
+                  ),
+                ),
+                SizedBox(
+                  height: 14.sm,
+                ),
+                Text(
+                  context.string.product_variant + ":",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Colors.grey.shade800,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.sm,
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 30.sm,
                   child: ListView(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -335,11 +326,12 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
+                            width: 1.sm,
                             color: Palette.superindoRed,
                           ),
                         ),
-                        margin: const EdgeInsets.only(right: 6),
-                        padding: const EdgeInsets.all(6),
+                        margin: EdgeInsets.only(right: 6.sm),
+                        padding: EdgeInsets.all(6.sm),
                         alignment: Alignment.center,
                         child: Text(
                           product?.unit ?? "-",
@@ -351,18 +343,18 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 14,
+                SizedBox(
+                  height: 14.sm,
                 ),
                 Text(
-                  context.string.product_description + " :",
+                  context.string.product_description + ":",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Colors.grey.shade800,
                   ),
                 ),
-                const SizedBox(
-                  height: 6,
+                SizedBox(
+                  height: 6.sm,
                 ),
                 Text(
                   product?.description ?? "",
@@ -371,38 +363,38 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
                     color: Colors.grey.shade800,
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: 20.sm,
                 ),
                 Text(
-                  context.string.you_might_like,
+                  context.string.similar_products,
                   textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sm,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.sm,
                 ),
-                _recommendationList(),
-                const SizedBox(
-                  height: 20,
+                _productsHorizontalList(),
+                SizedBox(
+                  height: 20.sm,
                 ),
                 Text(
-                  context.string.you_just_saw,
+                  context.string.recommendation_for_you,
                   textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sm,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: 10.sm,
                 ),
-                _recentList(),
-                const SizedBox(
-                  height: 60,
+                _productsHorizontalList(),
+                SizedBox(
+                  height: 60.sm,
                 ),
               ],
             ),
@@ -412,23 +404,13 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
     );
   }
 
-  Widget _recommendationList() {
+  Widget _productsHorizontalList() {
     return SizedBox(
-      height: 255,
+      height: 260.sm,
       child: Consumer<ProductsNotifier>(
         builder: (context, value, child) {
           final state = value.productsState;
-          if (state.isLoading) {
-            return ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return const ProductLoadingItem(width: 180);
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
-            );
-          } else if (state.isSuccess) {
+          if (state.isSuccess) {
             return ListView.separated(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -437,12 +419,12 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
                 final product = state.data![index];
                 return ProductGridItem(
                   product: product,
-                  width: 180,
+                  width: 150.sm,
                 );
               },
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
+              separatorBuilder: (context, index) => SizedBox(width: 10.sm),
             );
-          } else {
+          } else if (state.isFail) {
             return Center(
               child: state.failure?.when(
                 server: (errorCode, message) {
@@ -459,58 +441,15 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
                 },
               ),
             );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _recentList() {
-    return SizedBox(
-      height: 255,
-      child: Consumer<ProductsNotifier>(
-        builder: (context, value, child) {
-          final state = value.productsState;
-          if (state.isLoading) {
+          } else {
             return ListView.separated(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (context, index) {
-                return const ProductLoadingItem(width: 180);
+                return ProductLoadingItem(width: 150.sm);
               },
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
-            );
-          } else if (state.isSuccess) {
-            return ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: state.data!.length,
-              itemBuilder: (context, index) {
-                final product = state.data![index];
-                return ProductGridItem(
-                  product: product,
-                  width: 180,
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
-            );
-          } else {
-            return Center(
-              child: state.failure?.when(
-                server: (errorCode, message) {
-                  return const Text("Server Error");
-                },
-                timeout: () {
-                  return const Text("Server Time Out");
-                },
-                unconnected: () {
-                  return const Text("Server Unconnected");
-                },
-                unknown: (message) {
-                  return const Text("Unknown Failure");
-                },
-              ),
+              separatorBuilder: (context, index) => SizedBox(width: 10.sm),
             );
           }
         },
@@ -522,29 +461,28 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
     const backgroundColor = Colors.white;
     const fieldColor = Palette.superindoRed;
     return SliverAppBar(
+      toolbarHeight: kToolbarHeight.sm,
       backgroundColor: backgroundColor,
       elevation: 1,
       forceElevated: innerBoxIsScrolled,
       automaticallyImplyLeading: false,
       floating: true,
-      leadingWidth: 36,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 14),
-        child: InkResponse(
-          onTap: () {
-            context.router.pop();
-          },
-          radius: 20,
-          child: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: fieldColor,
-          ),
+      leadingWidth: kToolbarHeight.sm,
+      leading: InkResponse(
+        onTap: () {
+          context.router.pop();
+        },
+        radius: 20.sm,
+        child: const Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: fieldColor,
         ),
       ),
+      titleSpacing: 0,
       title: TextField(
-        style: const TextStyle(
+        style: TextStyle(
           color: fieldColor,
-          height: 1.5,
+          height: 1.5.sm,
         ),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
@@ -552,25 +490,26 @@ class _ProductContentState extends State<_ProductContent> with StatefulMixin {
           hintStyle: const TextStyle(
             color: fieldColor,
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
+              width: 1.sm,
               color: fieldColor,
             ),
           ),
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 14),
+        SizedBox(
+          width: kToolbarHeight.sm,
           child: InkResponse(
             onTap: () {},
-            radius: 20,
+            radius: 20.sm,
             child: const Icon(
               Icons.shopping_cart_rounded,
               color: fieldColor,
             ),
           ),
-        )
+        ),
       ],
     );
   }
