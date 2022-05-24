@@ -16,11 +16,13 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PagedGridView(
-      pagingController: pagingController!,
-      builderDelegate: _getPagedChildBuilderDelegate(),
-      gridDelegate: _getSliverGridDelegateWithFixedCrossAxisCount(),
+    return SliverPadding(
       padding: EdgeInsets.all(16.sm),
+      sliver: PagedSliverGrid(
+        pagingController: pagingController!,
+        builderDelegate: _getPagedChildBuilderDelegate(),
+        gridDelegate: _getSliverGridDelegateWithFixedCrossAxisCount(),
+      ),
     );
   }
 

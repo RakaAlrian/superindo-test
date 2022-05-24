@@ -1,7 +1,11 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:superindo/src/app/data/data_state.dart';
 import 'package:superindo/src/app/data/failures/network_failure.dart';
 import 'package:superindo/src/app/data/models/product_model.dart';
@@ -11,6 +15,8 @@ import 'package:superindo/src/app/ui/stateful_mixin.dart';
 import 'package:superindo/src/utilities/extensions/context_extension.dart';
 
 import '../../../utilities/injector/injector.dart';
+import '../widgets/empty_error_image.dart';
+import '../widgets/shimmer_loading.dart';
 import 'widgets/product_grid.dart';
 import 'widgets/product_loading.dart';
 
@@ -40,6 +46,10 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
     firstPageKey: 1,
   );
 
+  int _bannerIndex = 0;
+  final _bannerController = PageController(initialPage: 0);
+  late Timer _timer;
+
   @override
   void lateInitState() {
     super.lateInitState();
@@ -67,6 +77,23 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
         }
       }
     });
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) {
+        if (_bannerIndex < 2) {
+          _bannerIndex++;
+        } else {
+          _bannerIndex = 0;
+        }
+
+        _bannerController.animateToPage(
+          _bannerIndex,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeIn,
+        );
+      },
+    );
   }
 
   @override
@@ -74,46 +101,136 @@ class _ProductsContentState extends State<_ProductsContent> with StatefulMixin {
     super.dispose();
     _productsNotifier.dispose();
     _pagingController.dispose();
+    _bannerController.dispose();
+    _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async {
-          _pagingController.refresh();
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            _searchAppBar(innerBoxIsScrolled),
+          ];
         },
-        child: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return <Widget>[
-              _searchAppBar(innerBoxIsScrolled),
-            ];
-          },
-          body: Column(
-            children: [
-              Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async => _pagingController.refresh(),
-                  child: Consumer<ProductsNotifier>(
-                    builder: (context, value, child) {
-                      final state = value.productsState;
+        body: RefreshIndicator(
+          onRefresh: () async => _pagingController.refresh(),
+          child: CustomScrollView(
+            slivers: [
+              _banner(),
+              Consumer<ProductsNotifier>(
+                builder: (context, value, child) {
+                  final state = value.productsState;
 
-                      if (state.isLoading && value.pageKey == 1) {
-                        return const ProductLoading();
-                      } else {
-                        return ProductGrid(
-                          pagingController: _pagingController,
-                        );
-                      }
-                    },
-                  ),
-                ),
+                  if (state.isLoading && value.pageKey == 1) {
+                    return const ProductLoading();
+                  } else {
+                    return ProductGrid(
+                      pagingController: _pagingController,
+                    );
+                  }
+                },
               ),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        showUnselectedLabels: true,
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.store_rounded,
+            ),
+            label: context.string.nav_shopping,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.receipt_long_rounded,
+            ),
+            label: context.string.nav_transaction,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.confirmation_num_rounded,
+            ),
+            label: context.string.nav_voucher,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.account_circle_rounded,
+            ),
+            label: context.string.nav_profile,
+          ),
+        ],
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _banner() {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 230.sm,
+            child: PageView(
+              controller: _bannerController,
+              children: [
+                _bannerImage(
+                  imageUrl: "https://i.ytimg.com/vi/44NJUzb007A/maxresdefault.jpg",
+                ),
+                _bannerImage(
+                  imageUrl: "https://i0.wp.com/hargabelanja.com/wp-content/uploads/Promo-SuperIndo-Dapur-Impian-14-Oktober-2021-5-Januari-2022-Terbaru.jpg",
+                ),
+                _bannerImage(
+                  imageUrl: "https://i0.wp.com/hargabelanja.com/wp-content/uploads/Promo-Super-Indo-Katalog-Super-Hemat-Terbaru-14-20-Oktober-2021-Minggu-Ini.jpg",
+                ),
+              ],
+            ),
+          ),
+          SmoothPageIndicator(
+            controller: _bannerController,
+            count: 3,
+            effect: ExpandingDotsEffect(
+              activeDotColor: Palette.superindoRed,
+              dotColor: Colors.grey.shade400,
+              dotHeight: 6.sm,
+              dotWidth: 6.sm,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  CachedNetworkImage _bannerImage({
+    required String imageUrl,
+  }) {
+    return CachedNetworkImage(
+      imageBuilder: (context, imageProvider) {
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.contain,
+            ),
+          ),
+        );
+      },
+      imageUrl: imageUrl,
+      placeholder: (context, url) => ShimmerLoading(
+        child: ShimmerContainer(
+          width: double.maxFinite,
+          height: 200.sm,
+        ),
+      ),
+      errorWidget: (context, url, error) {
+        return const EmptyErrorImage();
+      },
+      width: double.maxFinite,
     );
   }
 

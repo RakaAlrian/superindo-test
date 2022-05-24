@@ -10,6 +10,10 @@
     }
   },
   "search": "Search anything..",
+  "nav_shopping": "Shopping",
+  "nav_transaction": "Transaction",
+  "nav_voucher": "Voucher",
+  "nav_profile": "Profile",
   "product_variant": "Product Variant",
   "product_description": "Product Description",
   "similar_products": "Similar Products",

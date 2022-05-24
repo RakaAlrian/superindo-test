@@ -7,6 +7,10 @@
     }
   },
   "search": "Cari apapun..",
+  "nav_shopping": "Belanja",
+  "nav_transaction": "Transaksi",
+  "nav_voucher": "Voucher",
+  "nav_profile": "Profil",
   "product_variant": "Varian Produk",
   "product_description": "Deskripsi Produk",
   "similar_products": "Produk Serupa",
