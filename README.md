@@ -29,7 +29,7 @@ Here is my `flutter doctor`, please consider to use same flutter version as this
 This project using some external packages. Please run this line below to download it.
 > flutter pub get
 
-You may need to restart dart analysis server when having error `Target of URI doesn't exist: 'package:flutter_gen/gen_l10n/gallery_localizations.dart'.`
+You may need to restart dart analysis server when having error `Target of URI doesn't exist: 'package:flutter_gen/gen_l10n/app_localizations.dart'.`
 ## Assets
 
 The `assets` directory houses images, fonts, and any other files you want to
